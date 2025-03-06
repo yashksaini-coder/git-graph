@@ -1,15 +1,16 @@
-import { Github, Twitter, Linkedin, Instagram, Heart } from 'lucide-react';
+import { Github, Twitter, Linkedin, Instagram, Coffee } from 'lucide-react';
 
 export const Footer = () => {
   return (
-    <footer className="w-full text-center text-sm" suppressHydrationWarning={true}>
-      <div className="flex flex-col items-center gap-4">
+    <footer className="w-full py-6 mt-auto text-center text-sm text-gray-400" suppressHydrationWarning={true}>
+      <div className="mb-12 flex flex-col items-center gap-4">
         <div className="flex items-center justify-center gap-4">
           <a 
             href="https://github.com/yashksaini-coder" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white transition-colors"
+            aria-label="GitHub Profile"
           >
             <Github size={18} />
           </a>
@@ -17,7 +18,8 @@ export const Footer = () => {
             href="#" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-blue-400 transition-colors"
+            className="text-gray-400 hover:text-slate-800 transition-colors"
+            aria-label="Twitter Profile"
           >
             <Twitter size={18} />
           </a>
@@ -26,30 +28,17 @@ export const Footer = () => {
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-blue-500 transition-colors"
+            aria-label="LinkedIn Profile"
           >
             <Linkedin size={18} />
-          </a>
-          <a 
-            href="#" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-pink-500 transition-colors"
-          >
-            <Instagram size={18} />
           </a>
         </div>
         <div className="flex items-center text-gray-400 text-xs sm:text-sm">
           <span>© {new Date().getFullYear()}</span>
           <span className="mx-1">·</span>
           <span className="flex items-center">
-            Made with <Heart size={12} className="text-red-500 mx-1" /> by 
-            <a 
-              href="https://github.com/yashksaini-coder" 
-              target="_blank" 
-              className="text-purple-400 hover:text-white ml-1 hover:underline font-medium"
-            >
-              Yash K. Saini
-            </a>
+            Made with <Coffee size={12} className="text-red-500 mx-1" fill="currentColor" /> by 
+            <div className='ml-2 hover:bg-violet-600 hover:text-white'>Yash K. Saini</div>
           </span>
         </div>
       </div>

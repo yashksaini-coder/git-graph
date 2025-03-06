@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { helloAction } from '@/actions/hello-action';
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input";
-import { Footer } from '@/components/footer';
 
 export default function Home() { 
   const [name, setName] = useState('');
@@ -37,8 +36,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen bg-gradient-to-b from-black to-slate-900 text-white px-4 py-8">
-      <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl mt-8 sm:mt-0">
+    <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-12">
+      <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
         <div className="flex flex-col items-center">
           <h1 className="text-4xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
             Git Graph
@@ -57,6 +56,7 @@ export default function Home() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-transparent border-none focus:ring-1 focus:ring-purple-500 placeholder-gray-500 text-sm sm:text-base"
+              aria-label="GitHub username"
             />
           </div>
           
@@ -70,6 +70,6 @@ export default function Home() {
           </Button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
