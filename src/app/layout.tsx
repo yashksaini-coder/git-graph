@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Ubuntu_Sans_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner"
 
 const UbuntuMono = Ubuntu_Sans_Mono({
   variable: "--font-ubuntu-mono",
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en" className={UbuntuMono.className}>
       <body>
         {children}
+        <Toaster />
       </body>
     </html>
   );
