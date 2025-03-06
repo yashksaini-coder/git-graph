@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { helloAction } from '@/actions/hello-action';
 import { toast } from "sonner"
 
-export default function Home() {
+export default function Home() { 
+
   const [name, setName] = useState('');
   
   const handleSubmit = async () => {
@@ -37,17 +38,6 @@ export default function Home() {
           Submit
         </Button>
       </div>
-
-      {/* <div className="mt-6 flex gap-4">
-        <Button  variant="outline" className="px-6 py-3 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition">
-          Get Started
-        </Button>
-        <Button variant="outline" className="px-6 py-3 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition">
-          <a href="https://github.com/yashksaini-coder/git-graph" target="_blank">
-            <Github className="text-xl" /> Github
-          </a>
-        </Button>
-      </div> */}
     </div>
   );
 }
