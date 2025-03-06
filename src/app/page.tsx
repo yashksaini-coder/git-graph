@@ -26,7 +26,7 @@ export default function Home() {
       toast.success(response.message, {
         duration: 5000,
       });
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong", {
         duration: 3000,
       });
