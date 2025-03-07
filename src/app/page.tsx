@@ -1,33 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { helloAction } from '@/actions/hello-action';
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input";
+import { getContributions } from '@/app/api';
+import Link from 'next/link';
 
 export default function Home() { 
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  const [contributionData, setContributionData] = useState(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     if (!name.trim()) {
       toast.error("Please enter your name", {
         duration: 3000,
       });
+      setIsSubmitting(false);
       return;
     }
-    
-    setIsSubmitting(true);
+
     try {
-      const response = await helloAction(name);
-      toast.success(response.message, {
-        duration: 5000,
-      });
-    } catch {
-      toast.error("Something went wrong", {
+      const contributions = await getContributions(name);
+      setContributionData(contributions);
+      console.log(contributions);
+      
+      if (!contributions || contributions.length === 0) {
+        toast.error("No contributions found for this user", {
+          duration: 3000,
+        });
+      } else {
+        toast.success("Contribution data fetched successfully!", {
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching contributions:', error);
+      toast.error("Failed to fetch contribution data. Please check the username and try again.", {
         duration: 3000,
       });
     } finally {
@@ -35,7 +49,30 @@ export default function Home() {
     }
   };
 
-  return (
+  if(contributionData) {
+    return (
+      <main className="flex flex-col items-center justify-center flex-1 w-full px-6 py-12">
+        <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
+          <div className="flex flex-col items-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+              Coming Soon!
+            </h1>
+            <p className="text-gray-400 text-center mt-4 max-w-md">
+              Contribute to the 
+              <span className='mr-2 ml-2 font-semibold text-blue-500 hover:text-white hover:bg-blue-500'>
+                <Link href="https://github.com/yashksaini-coder/git-graph">
+                  project
+                </Link>
+              </span>
+               to unlock this feature.
+            </p>
+          </div>
+        </div>
+      </main>
+    ); 
+  }
+
+  return(
     <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-12">
       <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
         <div className="flex flex-col items-center">
@@ -71,5 +108,5 @@ export default function Home() {
         </form>
       </div>
     </main>
-  );
+  )
 }
