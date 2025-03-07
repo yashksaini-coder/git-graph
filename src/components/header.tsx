@@ -1,11 +1,7 @@
 "use client";
-
 import { GitStarButton } from "./gitstarbutton";
-import { useTheme } from "next-themes";
 
 export const Header = () => {
-    const theme = useTheme();
-    const shadowColor = theme.resolvedTheme === "dark" ? "white" : "black";
     return (
         <div className="mt-10 w-full flex justify-center">
             <div className="w-3/5 h-14 rounded bg-primary mx-auto border border-border">
