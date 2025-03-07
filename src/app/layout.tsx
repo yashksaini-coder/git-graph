@@ -3,6 +3,7 @@ import { Ubuntu_Sans_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { Footer } from "@/components/footer";
+import {Header} from "@/components/header";
 
 const UbuntuMono = Ubuntu_Sans_Mono({
   variable: "--font-ubuntu-mono",
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={UbuntuMono.className} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-gradient-to-b from-black to-slate-900 text-white">
+        <Header />
         {children}
         <Footer />
         <Toaster richColors/>

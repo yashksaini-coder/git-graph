@@ -60,13 +60,13 @@ export default function Home() {
               Graph Coming Soon!
             </h1>
             <p className="text-gray-400 text-center mt-4 max-w-md">
-              Contribute to the 
+              Sponsor to the 
               <span className='mr-2 ml-2 font-semibold text-blue-500 hover:text-white hover:bg-blue-500'>
-                <Link href="https://github.com/yashksaini-coder/git-graph">
+                <Link href="https://github.com/sponsors/yashksaini-coder">
                   project
                 </Link>
               </span>
-               to unlock this feature.
+               to support the Developer.
             </p>
           </div>
         </div>
@@ -75,12 +75,9 @@ export default function Home() {
   }
 
   return(
-    <main className="mt-25 flex flex-col items-center justify-center flex-1 w-full px-4 py-12">
+    <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-6">
       <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
         <div className="flex flex-col items-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
-            Git Graph
-          </h1>
           <p className="text-gray-400 text-center mt-4 max-w-md">
             Generate your GitHub contribution graph and share them on your socials.
           </p>
