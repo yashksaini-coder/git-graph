@@ -15,7 +15,7 @@ export const Footer = () => {
             <Github size={18} />
           </a>
           <a 
-            href="#" 
+            href="https://x.com/yash_k_saini" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-slate-800 transition-colors"
@@ -24,7 +24,7 @@ export const Footer = () => {
             <Twitter size={18} />
           </a>
           <a 
-            href="#" 
+            href="https://www.linkedin.com/in/yashksaini/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-blue-500 transition-colors"
