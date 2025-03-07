@@ -1,0 +1,34 @@
+name: "📖 Documentation Request"
+description: "Report missing or incorrect documentation"
+title: "[Docs] <Brief description>"
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: "## 📝 Documentation Improvement\nHelp us improve the docs!"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📋 Describe the Issue"
+      description: "What part of the documentation needs improvement?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: "❌ Current State"
+      description: "What does the documentation currently say?"
+    
+  - type: textarea
+    id: expected
+    attributes:
+      label: "✅ Suggested Update"
+      description: "What should be changed or added?"
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: "📎 Additional Context"
+      description: "Any links or screenshots?"
