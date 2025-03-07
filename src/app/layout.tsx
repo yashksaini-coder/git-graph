@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-gradient-to-b from-black to-slate-900 text-white">
         {children}
         <Footer />
-        <Toaster />
+        <Toaster richColors/>
       </body>
     </html>
   );
