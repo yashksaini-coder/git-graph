@@ -1,17 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input";
-import { getContributions } from '@/app/api';
+import { getContributions } from '@/app/api/index';
 import Link from 'next/link';
+import { ContributionCalendar } from "@/utils/types";
+
 
 export default function Home() { 
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const [contributionData, setContributionData] = useState(null);
+  const [contributionData, setContributionData] = useState<ContributionCalendar>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,14 +29,14 @@ export default function Home() {
 
     try {
       const contributions = await getContributions(name);
-      setContributionData(contributions);
       console.log(contributions);
       
-      if (!contributions || contributions.length === 0) {
+      if (!contributions) {
         toast.error("No contributions found for this user", {
           duration: 3000,
         });
       } else {
+        setContributionData(contributions);
         toast.success("Contribution data fetched successfully!", {
           duration: 5000,
         });
@@ -54,8 +56,8 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center flex-1 w-full px-6 py-12">
         <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
           <div className="flex flex-col items-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
-              Coming Soon!
+            <h1 className="text-2xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
+              Graph Coming Soon!
             </h1>
             <p className="text-gray-400 text-center mt-4 max-w-md">
               Contribute to the 
