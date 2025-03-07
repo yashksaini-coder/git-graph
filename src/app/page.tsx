@@ -60,8 +60,8 @@ export default function Home() {
               Graph Coming Soon!
             </h1>
             <p className="text-gray-400 text-center mt-4 max-w-md">
-              Sponsor to the 
-              <span className='mr-2 ml-2 font-semibold text-blue-500 hover:text-white hover:bg-blue-500'>
+              Sponsor the 
+              <span className='mr-2 ml-2 font-semibold text-blue-500 hover:text-white hover:underline hover:bg-purple-500'>
                 <Link href="https://github.com/sponsors/yashksaini-coder">
                   project
                 </Link>
