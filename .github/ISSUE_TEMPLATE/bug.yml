@@ -1,0 +1,16 @@
+name: "🐛 Bug Report"
+description: "Report a bug or unexpected behavior in the project"
+title: "[Bug] <Brief description>"
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "## 🐞 Bug Report\nPlease fill in the details below."
+      
+  - type: textarea
+    id: description
+    attributes:
+      label: "📋 Description"
+      description: "A clear and concise description of the bug."
+    validations:
+      required: true
