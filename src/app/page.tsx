@@ -75,7 +75,7 @@ export default function Home() {
   }
 
   return(
-    <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-12">
+    <main className="mt-25 flex flex-col items-center justify-center flex-1 w-full px-4 py-12">
       <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
         <div className="flex flex-col items-center">
           <h1 className="text-4xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
