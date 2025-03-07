@@ -3,7 +3,7 @@ import { Github, Twitter, Linkedin, Coffee } from 'lucide-react';
 export const Footer = () => {
   return (
     <footer className="w-full py-6 mt-auto text-center text-sm text-gray-400" suppressHydrationWarning={true}>
-      <div className="mb-12 flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4">
         <div className="flex items-center justify-center gap-4">
           <a 
             href="https://github.com/yashksaini-coder" 
@@ -15,7 +15,7 @@ export const Footer = () => {
             <Github size={18} />
           </a>
           <a 
-            href="#" 
+            href="https://x.com/yash_k_saini" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-slate-800 transition-colors"
@@ -24,7 +24,7 @@ export const Footer = () => {
             <Twitter size={18} />
           </a>
           <a 
-            href="#" 
+            href="https://www.linkedin.com/in/yashksaini/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-blue-500 transition-colors"
