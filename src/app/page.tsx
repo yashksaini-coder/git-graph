@@ -6,43 +6,15 @@ import { toast } from "sonner"
 import { Input } from "@/components/ui/input";
 import { getContributions } from '@/app/api/index';
 import { ContributionCalendar } from "@/utils/types";
+import { parseContributionData } from "@/lib/parse";
 import { ActivityCalendar } from 'react-activity-calendar'
+import {DefaultTheme} from '@/lib/themes';
 
-// Parse GitHub contribution data into the format expected by ActivityCalendar
-function parseContributionData(contributionData: ContributionCalendar) {
-  const calendarData = [];
-  
-  if (!contributionData || !contributionData.weeks) {
-    return [];
-  }
-  
-  // Process each week's contribution data
-  for (const week of contributionData.weeks) {
-    // Process each day in the week
-    for (const day of week.contributionDays) {
-      if (day.date && typeof day.contributionCount === 'number') {
-        // Determine level based on contribution count (0-4 scale)
-        let level = 0;
-        if (day.contributionCount > 0) {
-          level = Math.min(Math.ceil(day.contributionCount / 5), 4);
-        }
-        
-        calendarData.push({
-          date: day.date,
-          count: day.contributionCount,
-          level: level
-        });
-      }
-    }
-  }
-  
-  return calendarData;
-}
 
 export default function Home() { 
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [theme] = useState(DefaultTheme);
   const [contributionData, setContributionData] = useState<ContributionCalendar>();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,6 +69,7 @@ export default function Home() {
                   fontSize={12}
                   blockSize={12}
                   blockMargin={4}
+                  theme={theme}
                 />
               </div>
             </div>
