@@ -5,9 +5,39 @@ import { Button } from '@/components/ui/button';
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input";
 import { getContributions } from '@/app/api/index';
-import Link from 'next/link';
 import { ContributionCalendar } from "@/utils/types";
+import { ActivityCalendar } from 'react-activity-calendar'
 
+// Parse GitHub contribution data into the format expected by ActivityCalendar
+function parseContributionData(contributionData: ContributionCalendar) {
+  const calendarData = [];
+  
+  if (!contributionData || !contributionData.weeks) {
+    return [];
+  }
+  
+  // Process each week's contribution data
+  for (const week of contributionData.weeks) {
+    // Process each day in the week
+    for (const day of week.contributionDays) {
+      if (day.date && typeof day.contributionCount === 'number') {
+        // Determine level based on contribution count (0-4 scale)
+        let level = 0;
+        if (day.contributionCount > 0) {
+          level = Math.min(Math.ceil(day.contributionCount / 5), 4);
+        }
+        
+        calendarData.push({
+          date: day.date,
+          count: day.contributionCount,
+          level: level
+        });
+      }
+    }
+  }
+  
+  return calendarData;
+}
 
 export default function Home() { 
   const [name, setName] = useState('');
@@ -49,25 +79,34 @@ export default function Home() {
     } finally {
       setIsSubmitting(false);
     }
+    console.log(contributionData?.weeks);
   };
 
   if(contributionData) {
     return (
-      <main className="flex flex-col items-center justify-center flex-1 w-full px-6 py-12">
-        <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
+      <main className="flex flex-col items-center justify-center flex-1 w-full px-2 py-8">
+        <div className="w-full max-w-4xl space-y-8 p-4 sm:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
           <div className="flex flex-col items-center">
-            <h1 className="text-2xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
-              Graph Coming Soon!
+            <h1 className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
+              Data Fetched!
             </h1>
-            <p className="text-gray-400 text-center mt-4 max-w-md">
-              Sponsor the 
-              <span className='mr-2 ml-2 font-semibold text-blue-500 hover:text-white hover:underline hover:bg-purple-500'>
-                <Link href="https://github.com/sponsors/yashksaini-coder">
-                  project
-                </Link>
-              </span>
-               to support the Developer.
-            </p>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-full pb-2">
+                <ActivityCalendar 
+                  data={parseContributionData(contributionData)}
+                  fontSize={12}
+                  blockSize={12}
+                  blockMargin={4}
+                />
+              </div>
+            </div>
+            
+            <Button 
+              onClick={() => setContributionData(undefined)}
+              className="mt-6 bg-gray-700 hover:bg-gray-600 text-white"
+            >
+              Search Another User
+            </Button>
           </div>
         </div>
       </main>
