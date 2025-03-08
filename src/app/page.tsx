@@ -9,6 +9,7 @@ import { ContributionCalendar } from "@/utils/types";
 import { parseContributionData } from "@/lib/parse";
 import { ActivityCalendar } from 'react-activity-calendar'
 import {DefaultTheme} from '@/lib/themes';
+import Loader from '@/components/loader';
 
 
 export default function Home() { 
@@ -89,34 +90,40 @@ export default function Home() {
   return(
     <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-6">
       <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
-        <div className="flex flex-col items-center">
-          <p className="text-gray-400 text-center mt-4 max-w-md">
-            Generate your GitHub contribution graph and share them on your socials.
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-          <div className="card-container bg-gray-800/70 p-3 sm:p-4 rounded-lg border border-gray-700">
-            <Input
-              id="name"
-              type="text"
-              placeholder="Enter your username..."
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full bg-transparent border-none focus:ring-1 focus:ring-purple-500 placeholder-gray-500 text-sm sm:text-base"
-              aria-label="GitHub username"
-            />
+      {isSubmitting ?
+          <div className='relative w-full h-40'>
+            <Loader isActive={isSubmitting} /> 
+          </div> : 
+          <>
+          <div className="flex flex-col items-center">
+            <p className="text-gray-400 text-center mt-4 max-w-md">
+              Generate your GitHub contribution graph and share them on your socials.
+            </p>
           </div>
-          
-          <Button 
-            type="submit" 
-            disabled={isSubmitting}
-            variant="default"
-            className="w-full hover:bg-violet-700 text-white transition-all duration-200 rounded-md py-2 font-medium shadow-md bg-gradient-to-r from-violet-600 to-indigo-600"
-          >
-            {isSubmitting ? "Processing..." : "Generate Graph"}
-          </Button>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <div className="card-container bg-gray-800/70 p-3 sm:p-4 rounded-lg border border-gray-700">
+              <Input
+                id="name"
+                type="text"
+                placeholder="Enter your username..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full bg-transparent border-none focus:ring-1 focus:ring-purple-500 placeholder-gray-500 text-sm sm:text-base"
+                aria-label="GitHub username"
+              />
+            </div>
+            
+            <Button 
+              type="submit" 
+              disabled={isSubmitting}
+              variant="default"
+              className="w-full hover:bg-violet-700 text-white transition-all duration-200 rounded-md py-2 font-medium shadow-md bg-gradient-to-r from-violet-600 to-indigo-600"
+            >
+              {isSubmitting ? "Processing..." : "Generate Graph"}
+            </Button>
+          </form>
+        </>
+        }
       </div>
     </main>
   )
