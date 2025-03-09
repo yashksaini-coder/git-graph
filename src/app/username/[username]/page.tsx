@@ -17,6 +17,8 @@ export default function Username() {
   const downloadDivRef = useRef<HTMLDivElement>(null);
   const theme = DefaultTheme;
 
+  console.log("rendering username page");
+  
   const { contributionData, isLoading } = useContibutions(username as string);
 
   const handleDownload = useCallback(() => {
@@ -69,7 +71,7 @@ export default function Username() {
             />
           </div>
         </div>
-        <div className="flex items-center justify-between mt-6 gap-4">
+        <div className="relative z-50 flex items-center justify-between mt-6 gap-4">
           <Link href="/">
             <Button className="bg-gray-700 hover:bg-gray-600 text-white">
               Search Another User

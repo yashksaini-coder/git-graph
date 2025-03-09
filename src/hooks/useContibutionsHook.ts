@@ -1,6 +1,6 @@
+import { useEffect, useState, useCallback } from "react";
 import { getContributions } from "@/app/api";
 import { ContributionCalendar } from "@/utils/types";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export const useContibutions = (username: string) => {
@@ -8,7 +8,7 @@ export const useContibutions = (username: string) => {
     useState<ContributionCalendar | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchContributions = async () => {
+  const fetchContributions = useCallback(async () => {
     try {
       const contributions = await getContributions(username);
       if (!contributions) {
@@ -21,7 +21,7 @@ export const useContibutions = (username: string) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [username]);
 
   useEffect(() => {
     if (username) {
