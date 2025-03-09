@@ -11,9 +11,7 @@ import { checkUsernameExists } from "@/app/api/index";
 export default function Home() {
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-<<<<<<< HEAD
   const router = useRouter();
-=======
   const [theme] = useState(DefaultTheme);
   const [contributionData, setContributionData] =
     useState<ContributionCalendar>();
@@ -33,7 +31,6 @@ export default function Home() {
         });
     }
   }, [downloadDivRef]);
->>>>>>> 5684757229c7a170595df1ba10682648b66c3df9
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,8 +62,6 @@ export default function Home() {
     }
   };
 
-<<<<<<< HEAD
-=======
   if (contributionData) {
     return (
       <div className="container mx-auto px-2 py-8">
@@ -111,7 +106,6 @@ export default function Home() {
     );
   }
 
->>>>>>> 5684757229c7a170595df1ba10682648b66c3df9
   return (
     <main className="flex flex-col items-center justify-center h-screen px-4 py-6">
       <div className="w-full max-w-lg space-y-6 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-md border border-gray-800 shadow-lg">
