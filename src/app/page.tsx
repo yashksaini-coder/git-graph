@@ -12,28 +12,6 @@ export default function Home() {
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-<<<<<<< HEAD
-=======
-  const [theme] = useState(DefaultTheme);
-  const [contributionData, setContributionData] =
-    useState<ContributionCalendar>();
-  const downloadDivRef = useRef<HTMLDivElement>(null);
-
-  const handleDownload = useCallback((username: string) => () => {
-    if (downloadDivRef.current) {
-      toPng(downloadDivRef.current, { cacheBust: true })
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = `${username}-contribution-graph.png`;
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [downloadDivRef]);
->>>>>>> a067663fc9f247602305b354972e163cef39bad9
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,53 +43,6 @@ export default function Home() {
     }
   };
 
-<<<<<<< HEAD
-=======
-  if (contributionData) {
-    return (
-      <div className="container mx-auto px-2 py-8">
-        <div className="flex flex-col items-center justify-center">
-          <div
-            ref={downloadDivRef}
-            className="relative w-full max-w-4xl space-y-8 p-4 sm:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl"
-          >
-            <div className="flex flex-col items-center">
-              <h1 className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
-                Data Fetched!
-              </h1>
-              <div className="w-full overflow-x-auto">
-                <div className="min-w-full pb-2">
-                  <ActivityCalendar
-                    data={parseContributionData(contributionData)}
-                    fontSize={12}
-                    blockSize={12}
-                    blockMargin={4}
-                    theme={theme}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between z-50 relative mt-6 gap-4">
-            <Button
-              onClick={() => setContributionData(undefined)}
-              className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
-            >
-              Search Another User
-            </Button>
-            <Button
-              onClick={handleDownload(name)}
-              className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
-            >
-              Download
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
->>>>>>> a067663fc9f247602305b354972e163cef39bad9
   return (
     <main className="flex flex-col items-center justify-center h-screen px-4 py-6">
       <div className="w-full max-w-lg space-y-6 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-md border border-gray-800 shadow-lg">
