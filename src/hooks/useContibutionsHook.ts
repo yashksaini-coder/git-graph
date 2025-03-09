@@ -24,8 +24,10 @@ export const useContibutions = (username: string) => {
   };
 
   useEffect(() => {
-    fetchContributions();
-  }, [username]);
+    if (username) {
+      fetchContributions();
+    }
+  }, [username, fetchContributions]);
 
   return { contributionData, isLoading };
 };

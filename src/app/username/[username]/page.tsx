@@ -1,6 +1,5 @@
 "use client";
 
-import { getContributions } from "@/app/api";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useContibutions } from "@/hooks/useContibutionsHook";
