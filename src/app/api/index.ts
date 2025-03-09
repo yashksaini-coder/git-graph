@@ -35,3 +35,21 @@ export async function getContributions(username: string) {
   }
 }
 
+export async function checkUsernameExists(username: string) {
+  const query = `
+    query ($login: String!) {
+      user(login: $login) {
+        id
+      }
+    }`;
+
+  const variables = { login: username };
+
+  try {
+    const response = await octokitGraphQL<{ user: { id: string } }>(query, variables);
+    return !!response.user.id;
+  } catch (error) {
+    console.error(`Error checking username ${username}:`, error);
+  }
+}
+
