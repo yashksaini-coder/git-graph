@@ -1,26 +1,43 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { toast } from "sonner"
+import { useCallback, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { getContributions } from '@/app/api/index';
+import { getContributions } from "@/app/api/index";
 import { ContributionCalendar } from "@/utils/types";
 import { parseContributionData } from "@/lib/parse";
-import { ActivityCalendar } from 'react-activity-calendar'
-import {DefaultTheme} from '@/lib/themes';
+import { ActivityCalendar } from "react-activity-calendar";
+import { DefaultTheme } from "@/lib/themes";
+import { toPng } from "html-to-image";
 
-
-export default function Home() { 
-  const [name, setName] = useState('');
+export default function Home() {
+  const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [theme] = useState(DefaultTheme);
-  const [contributionData, setContributionData] = useState<ContributionCalendar>();
+  const [contributionData, setContributionData] =
+    useState<ContributionCalendar>();
+  const downloadDivRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = useCallback(() => {
+    if (downloadDivRef.current) {
+      toPng(downloadDivRef.current, { cacheBust: true })
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = `${name}-contribution-graph.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [downloadDivRef]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     if (!name.trim()) {
       toast.error("Please enter your name", {
         duration: 3000,
@@ -32,7 +49,7 @@ export default function Home() {
     try {
       const contributions = await getContributions(name);
       console.log(contributions);
-      
+
       if (!contributions) {
         toast.error("No contributions found for this user", {
           duration: 3000,
@@ -44,54 +61,71 @@ export default function Home() {
         });
       }
     } catch (error) {
-      console.error('Error fetching contributions:', error);
-      toast.error("Failed to fetch contribution data. Please check the username and try again.", {
-        duration: 3000,
-      });
+      console.error("Error fetching contributions:", error);
+      toast.error(
+        "Failed to fetch contribution data. Please check the username and try again.",
+        {
+          duration: 3000,
+        }
+      );
     } finally {
       setIsSubmitting(false);
     }
     console.log(contributionData?.weeks);
   };
 
-  if(contributionData) {
+  if (contributionData) {
     return (
-      <main className="flex flex-col items-center justify-center flex-1 w-full px-2 py-8">
-        <div className="w-full max-w-4xl space-y-8 p-4 sm:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
-          <div className="flex flex-col items-center">
-            <h1 className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
-              Data Fetched!
-            </h1>
-            <div className="w-full overflow-x-auto">
-              <div className="min-w-full pb-2">
-                <ActivityCalendar 
-                  data={parseContributionData(contributionData)}
-                  fontSize={12}
-                  blockSize={12}
-                  blockMargin={4}
-                  theme={theme}
-                />
+      <div className="container mx-auto px-2 py-8">
+        <div className="flex flex-col items-center justify-center">
+          <div
+            ref={downloadDivRef}
+            className="relative w-full max-w-4xl space-y-8 p-4 sm:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl"
+          >
+            <div className="flex flex-col items-center">
+              <h1 className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
+                Data Fetched!
+              </h1>
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-full pb-2">
+                  <ActivityCalendar
+                    data={parseContributionData(contributionData)}
+                    fontSize={12}
+                    blockSize={12}
+                    blockMargin={4}
+                    theme={theme}
+                  />
+                </div>
               </div>
+
+              <Button
+                onClick={() => setContributionData(undefined)}
+                className="mt-6 bg-gray-700 hover:bg-gray-600 text-white"
+              >
+                Search Another User
+              </Button>
             </div>
-            
-            <Button 
-              onClick={() => setContributionData(undefined)}
-              className="mt-6 bg-gray-700 hover:bg-gray-600 text-white"
+          </div>
+          <div className="flex items-start w-full justify-center z-50 relative">
+            <Button
+              onClick={handleDownload}
+              className="bg-gray-700 m-4 hover:bg-gray-600 text-white cursor-pointer"
             >
-              Search Another User
+              Download Image
             </Button>
           </div>
         </div>
-      </main>
-    ); 
+      </div>
+    );
   }
 
-  return(
+  return (
     <main className="flex flex-col items-center justify-center flex-1 w-full px-4 py-6">
       <div className="w-full max-w-lg space-y-8 p-6 sm:p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl">
         <div className="flex flex-col items-center">
           <p className="text-gray-400 text-center mt-4 max-w-md">
-            Generate your GitHub contribution graph and share them on your socials.
+            Generate your GitHub contribution graph and share them on your
+            socials.
           </p>
         </div>
 
@@ -107,9 +141,9 @@ export default function Home() {
               aria-label="GitHub username"
             />
           </div>
-          
-          <Button 
-            type="submit" 
+
+          <Button
+            type="submit"
             disabled={isSubmitting}
             variant="default"
             className="w-full hover:bg-violet-700 text-white transition-all duration-200 rounded-md py-2 font-medium shadow-md bg-gradient-to-r from-violet-600 to-indigo-600"
@@ -119,5 +153,5 @@ export default function Home() {
         </form>
       </div>
     </main>
-  )
+  );
 }
