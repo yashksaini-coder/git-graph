@@ -97,21 +97,20 @@ export default function Home() {
                   />
                 </div>
               </div>
-
-              <Button
-                onClick={() => setContributionData(undefined)}
-                className="mt-6 bg-gray-700 hover:bg-gray-600 text-white"
-              >
-                Search Another User
-              </Button>
             </div>
           </div>
-          <div className="flex items-start w-full justify-center z-50 relative">
+          <div className="flex items-center justify-between z-50 relative mt-6 gap-4">
+            <Button
+              onClick={() => setContributionData(undefined)}
+              className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
+            >
+              Search Another User
+            </Button>
             <Button
               onClick={handleDownload}
-              className="bg-gray-700 m-4 hover:bg-gray-600 text-white cursor-pointer"
+              className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
             >
-              Download Image
+              Download
             </Button>
           </div>
         </div>
