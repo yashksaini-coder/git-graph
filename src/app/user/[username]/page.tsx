@@ -182,7 +182,7 @@ function UserContributionContent({ username }: { username: string }) {
 // Main page component
 export default function UserPage() {
   const params = useParams();
-  const username = params.username as string;
+  const username = params?.username as string || '';
   
   return (
     <Suspense fallback={
