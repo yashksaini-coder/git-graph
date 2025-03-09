@@ -24,7 +24,7 @@ export const Loader = () => {
         }, 2000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [messages.length]);
 
     return (
         <div className="flex flex-col items-center justify-center gap-4">
