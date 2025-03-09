@@ -20,12 +20,12 @@ export default function Home() {
     useState<ContributionCalendar>();
   const downloadDivRef = useRef<HTMLDivElement>(null);
 
-  const handleDownload = useCallback(() => {
+  const handleDownload = useCallback((username: string) => () => {
     if (downloadDivRef.current) {
       toPng(downloadDivRef.current, { cacheBust: true })
         .then((dataUrl) => {
           const link = document.createElement("a");
-          link.download = `${name}-contribution-graph.png`;
+          link.download = `${username}-contribution-graph.png`;
           link.href = dataUrl;
           link.click();
         })
@@ -108,7 +108,7 @@ export default function Home() {
               Search Another User
             </Button>
             <Button
-              onClick={handleDownload}
+              onClick={handleDownload(name)}
               className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
             >
               Download
