@@ -2,7 +2,7 @@ import { Github, Twitter, Linkedin, Coffee } from 'lucide-react';
 
 export const Footer = () => {
   return (
-    <footer className="w-full py-4 sm:py-6 mt-auto text-center text-xs sm:text-sm text-gray-400 border-t border-gray-800" suppressHydrationWarning={true}>
+    <footer className="w-full py-4 sm:py-6 mt-auto text-center text-xs sm:text-sm text-gray-400 border-t border-gray-800 z-1" suppressHydrationWarning={true}>
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center gap-3 sm:gap-4">
           <div className="flex items-center justify-center gap-4 sm:gap-6">
