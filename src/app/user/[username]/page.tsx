@@ -25,11 +25,24 @@ function UserContributionContent({ username }: { username: string }) {
   const dataFetchedRef = useRef(false);
 
   const handleDownload = useCallback(async () => {
-    if (downloadDivRef.current === null) return;
-    
+    if (!downloadDivRef.current) return;
+
     toast.promise(
       async () => {
-        const dataUrl = await toPng(downloadDivRef.current!);
+        const graphElement=downloadDivRef.current!;
+        const originalWidth =graphElement.style.width;
+        const originalOverflow =graphElement.style.overflow;
+        graphElement.style.width="1200px"; 
+        graphElement.style.overflow="visible";
+
+        await new Promise(resolve => setTimeout(resolve, 300));      
+        const dataUrl = await toPng(graphElement,{
+          backgroundColor: "#1a1a1a"
+        });
+
+        graphElement.style.width = originalWidth;
+        graphElement.style.overflow = originalOverflow;
+
         const link = document.createElement('a');
         link.download = `${username}-github-contributions.png`;
         link.href = dataUrl;
