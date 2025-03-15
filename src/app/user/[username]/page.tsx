@@ -8,10 +8,11 @@ import { ContributionCalendar } from "@/utils/types";
 import { parseContributionData } from "@/lib/parse";
 import { toPng } from "html-to-image";
 import { ActivityCalendar } from "react-activity-calendar";
-import { DefaultTheme } from "@/lib/themes";
+import { DefaultTheme, themes } from "@/lib/themes";
 import { Loader } from "@/components/loader";
 import { useRouter, useParams } from "next/navigation";
 import React, { Suspense } from "react";
+import CustomizationPanel from "@/components/shared/CustomizationPanel";
 
 // Component that uses router and handles contribution data
 function UserContributionContent({ username }: { username: string }) {
@@ -19,10 +20,19 @@ function UserContributionContent({ username }: { username: string }) {
   
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [theme] = useState(DefaultTheme);
+  const [theme,setTheme] = useState(DefaultTheme);
   const [contributionData, setContributionData] = useState<ContributionCalendar | null>(null);
   const downloadDivRef = useRef<HTMLDivElement>(null);
   const dataFetchedRef = useRef(false);
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("selectedTheme");
+    if (storedTheme && themes[storedTheme]) {
+      setTheme(themes[storedTheme]);
+    } else {
+      setTheme(DefaultTheme);
+    }
+  }, []);
 
   const handleDownload = useCallback(async () => {
     if (!downloadDivRef.current) return;
@@ -145,7 +155,8 @@ function UserContributionContent({ username }: { username: string }) {
   }
 
   return (
-    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in">
+    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex flex-row-reverse gap-2">
+      <CustomizationPanel setTheme={setTheme} />
       <div className="flex flex-col items-center justify-center">
         <div
           ref={downloadDivRef}
