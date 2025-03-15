@@ -155,7 +155,7 @@ function UserContributionContent({ username }: { username: string }) {
   }
 
   return (
-    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex flex-row-reverse gap-2">
+    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex flex-row-reverse justify-center gap-6">
       <CustomizationPanel setTheme={setTheme} />
       <div className="flex flex-col items-center justify-center">
         <div
