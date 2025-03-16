@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+// import { Skeleton } from "@/components/ui/skeleton";
 import { Users, GitCommit } from "lucide-react";
 import { getProfile } from "@/app/api";
 import { UserProfileType } from "@/utils/types";
@@ -15,17 +15,14 @@ interface UserInfoProps {
   showProfile: boolean;
 }
 
-export default function UserInfo({
-  username,
-  showProfile,
-}: UserInfoProps) {
+export default function UserInfo({ username, showProfile }: UserInfoProps) {
   const [profile, setProfile] = useState<UserProfileType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!showProfile) return;
-      setIsLoading(true);
+      // setIsLoading(true);
 
       try {
         const response = await getProfile(username!);
@@ -38,7 +35,7 @@ export default function UserInfo({
         console.error("Error fetching profile:", error);
         toast.error("Failed to load profile data");
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 
@@ -58,13 +55,16 @@ export default function UserInfo({
             {profile ? (
               <div className="flex flex-col md:flex-row gap-6">
                 <Avatar className="w-24 h-24 rounded-full border-2 border-[#30363d]">
-                  <img
+                  <AvatarImage
                     src={profile.avatarUrl || "/placeholder.svg"}
                     alt={
                       typeof profile.name === "string" ? profile.name : "User"
                     }
                     className="object-cover"
                   />
+                  <AvatarFallback>
+                    <Users className="w-12 h-12" />
+                  </AvatarFallback>
                 </Avatar>
                 <div className="space-y-2 flex-1">
                   <div>
