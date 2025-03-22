@@ -208,14 +208,14 @@ function UserContributionContent({ username }: { username: string }) {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-between z-50 relative mt-6 gap-4">
+        <div className="flex items-center justify-between w-full z-50 relative mt-6 gap-4">
           {/* <Switch checked={showProfile} onCheckedChange={setShowProfile} /> */}
-          <Button
+          {/* <Button
             onClick={handleBackToSearch}
             className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer transition-colors duration-200"
           >
             Search Another User
-          </Button>
+          </Button> */}
           <Button
             onClick={handleDownload}
             className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200"

@@ -1,6 +1,7 @@
 "use client";
 import { GitStarButton } from "./gitstarbutton";
 import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 
 export const Header = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -34,6 +35,11 @@ export const Header = () => {
                                 <div className={`h-7 sm:h-8 px-1 sm:px-1.5 py-0.5 sm:py-1 border-2 ${isMobile ? 'px-1.5 py-1 border-black bg-fuchsia-500 text-black' : 'border-white hover:border-black hover:bg-fuchsia-500 text-white hover:text-black'} font-bold text-xs sm:text-sm rounded-md`}>
                                     [<a className="font-mono hover:underline" href="https://github.com/sponsors/yashksaini-coder" target="_blank" rel="noopener noreferrer">
                                     {isMobile ? "Spon" : "Sponsor"}</a>]
+                                </div>
+                                <div className={`h-7 sm:h-8 px-1 sm:px-1.5 py-0.5 sm:py-1 border-2 ${isMobile ? 'px-1.5 py-1 border-black bg-indigo-500 text-black' : 'border-white hover:border-black hover:bg-indigo-500 text-white hover:text-black'} font-bold text-xs sm:text-sm rounded-md`}>
+                                    <button>
+                                      <Search size={18} />
+                                    </button>
                                 </div>
                             </div>
                         </div>
