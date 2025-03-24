@@ -15,6 +15,5 @@ export const octokit = new Octokit({
 export const octokitGraphQL = graphql.defaults({
   headers: {
     authorization: `token ${process.env.GITHUB_TOKEN}`,
-    // authorization: `token ${GITHUB_TOKEN}`,
   },
 });
