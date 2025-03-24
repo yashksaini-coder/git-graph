@@ -2,7 +2,6 @@ import { Octokit } from "octokit";
 import { graphql } from "@octokit/graphql";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-// const GITHUB_TOKEN = "";
 
 if (!GITHUB_TOKEN) {
   throw new Error("GITHUB_TOKEN is not set");
