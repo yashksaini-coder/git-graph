@@ -82,6 +82,7 @@
 
 html, body {
   height: fit-content;
+  min-height: 100vh;
 }
 
 /* Fix for hydration warning */
