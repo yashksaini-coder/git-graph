@@ -24,9 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={UbuntuMono.className} suppressHydrationWarning>
-      <body className="h-full flex flex-col bg-gradient-to-b from-slate-900 to-black text-white">
+      <body className="h-fit flex flex-col bg-gradient-to-b from-slate-900 to-black text-white">
         <FlickeringGrid
-                className="absolute flex flex-col justify-center items-center w-full h-full [mask-image:radial-gradient(800px_circle_at_center,white,transparent)]"
+                className="fixed inset-0 w-screen h-screen flex flex-col justify-center items-center [mask-image:radial-gradient(800px_circle_at_center,white,transparent)]"
                 squareSize={4}
                 gridGap={6}
                 color="#3a0ca3"

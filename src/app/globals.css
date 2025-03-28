@@ -81,7 +81,7 @@
 }
 
 html, body {
-  height: 100%;
+  height: fit-content;
 }
 
 /* Fix for hydration warning */
