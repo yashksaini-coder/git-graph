@@ -163,7 +163,7 @@ function UserContributionContent({ username }: { username: string }) {
   }
 
   return (
-    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex flex-row-reverse justify-center gap-6">
+    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex flex-row-reverse justify-center gap-6 h-fit">
       <CustomizationPanel setTheme={setTheme} />
       <div className="flex flex-col items-center justify-center">
         <div
@@ -243,7 +243,7 @@ export default function UserPage() {
     <Suspense
       fallback={
         <div className="container mx-auto my-20 px-2 py-8 flex items-center justify-center min-h-[50vh]">
-          <div className="animate-fade-in relative w-full max-w-lg h-40 flex flex-col items-center justify-center">
+          <div className="animate-fade-in relative w-full max-w-lg h-fit flex flex-col items-center justify-center">
             <Loader />
           </div>
         </div>
