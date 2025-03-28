@@ -163,21 +163,21 @@ function UserContributionContent({ username }: { username: string }) {
   }
 
   return (
-    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex flex-row-reverse justify-center gap-6 h-fit">
+    <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex lg:flex-row-reverse flex-col-reverse lg:flex-nowrap flex-wrap justify-center items-center gap-6 h-fit">
       <CustomizationPanel setTheme={setTheme} />
       <div className="flex flex-col items-center justify-center">
         <div
           ref={downloadDivRef}
-          className="relative w-full max-w-4xl space-y-8 p-4 sm:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl"
+          className="relative w-full max-w-4xl space-y-8 p-3 md:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl"
         >
           <UserInfo showProfile={showProfile} username={username} />
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center">
             {!showProfile && (
               <h1 className="text-2xl md:text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
                 {username}&apos;s Contribution Graph
               </h1>
             )}
-            <div className="w-full overflow-x-auto">
+            <div className="w-full max-w-[80vw] overflow-x-auto">
               <div className="min-w-full pb-2">
                 <ActivityCalendar
                   data={parseContributionData(contributionData)}
