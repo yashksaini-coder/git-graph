@@ -1,4 +1,5 @@
-import { Github, Twitter, Linkedin, Coffee } from 'lucide-react';
+import { Github, Linkedin, Coffee } from 'lucide-react';
+import { RiTwitterXLine } from "react-icons/ri";
 
 export const Footer = () => {
   return (
@@ -22,7 +23,7 @@ export const Footer = () => {
               className="text-gray-400 hover:text-slate-800 transition-colors"
               aria-label="Twitter Profile"
             >
-              <Twitter size={16} className="sm:size-[18px]" />
+              <RiTwitterXLine size={16} className="sm:size-[18px]" />
             </a>
             <a 
               href="https://www.linkedin.com/in/yashksaini/" 
