@@ -5,15 +5,14 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { getContributions } from "@/app/api/index";
 import { ContributionCalendar } from "@/utils/types";
-import { parseContributionData } from "@/lib/parse";
 import { toPng } from "html-to-image";
-import { ActivityCalendar } from "react-activity-calendar";
 import { DefaultTheme, themes } from "@/lib/themes";
 import { Loader } from "@/components/loader";
 import { useRouter, useParams } from "next/navigation";
 import React, { Suspense } from "react";
 import CustomizationPanel from "@/components/shared/CustomizationPanel";
 import UserInfo from "@/components/UserInfo";
+import GitHubCalendar from 'react-github-calendar';
 // import { Switch } from "@radix-ui/react-switch";
 
 // Component that uses router and handles contribution data
@@ -23,6 +22,7 @@ function UserContributionContent({ username }: { username: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [theme, setTheme] = useState(DefaultTheme);
+  const [themeName,setThemeName] = useState(localStorage.getItem("selectedTheme"));
   const [contributionData, setContributionData] =
     useState<ContributionCalendar | null>(null);
   const downloadDivRef = useRef<HTMLDivElement>(null);
@@ -37,6 +37,15 @@ function UserContributionContent({ username }: { username: string }) {
       setTheme(DefaultTheme);
     }
   }, []);
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("selectedTheme");
+    if (storedTheme) {
+      setThemeName(storedTheme);
+    } else {
+      setThemeName("Default");
+    }
+  }, [theme]);
 
   const handleDownload = useCallback(async () => {
     if (!downloadDivRef.current) return;
@@ -179,30 +188,15 @@ function UserContributionContent({ username }: { username: string }) {
             )}
             <div className="w-full max-w-[80vw] overflow-x-auto">
               <div className="min-w-full pb-2">
-                <ActivityCalendar
-                  data={parseContributionData(contributionData)}
-                  fontSize={12}
+                <GitHubCalendar
+                  username={username}
                   blockSize={12}
                   blockMargin={4}
-                  theme={theme}
-                  labels={{
-                    months: [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec",
-                    ],
-                    weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-                    totalCount: "{{count}} contributions in the last year",
-                  }}
+                  theme={themeName === "Dark" || themeName === "Light" ? undefined : theme}
+                  fontSize={12}
+                  colorScheme={
+                    themeName === "Dark" ? "dark" : themeName === "Light" ? "light" : undefined
+                  }
                 />
               </div>
             </div>
