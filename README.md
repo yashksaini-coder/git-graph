@@ -146,3 +146,22 @@ Found a bug or need help? Please create an issue on the [GitHub repository](http
         </tbody>
     </table>
 </a>
+
+## 🐳 Docker Usage
+
+You can build and run **Git Graph** inside a Docker container using the [Dockerfile](./Dockerfile) provided in this project.
+
+1. **Build the Docker Image**  
+   ```bash
+   docker build -t git-graph-image .
+   ```
+
+2. **Run a Container**  
+   ```bash
+   docker run -p 3000:3000 git-graph-image
+   ```
+
+3. **Access the App**  
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+> **TIP**: Check the `.env` file for environment variables. Make sure it’s copied as needed.
