@@ -19,9 +19,9 @@ import { RiSidebarFoldFill } from "react-icons/ri";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
+  // SheetDescription,
   SheetHeader,
-  SheetTitle,
+  // SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ChevronRight } from "lucide-react";
@@ -30,11 +30,11 @@ import { FaBorderStyle } from "react-icons/fa";
 import { MdCenterFocusWeak } from "react-icons/md";
 import { AiOutlineFontSize } from "react-icons/ai";
 
-interface SidebarProps {
-  triggerText: string;
-  title: string;
-  description: string;
-}
+// interface SidebarProps {
+//   triggerText: string;
+//   title: string;
+//   description: string;
+// }
 
 // Component that uses router and handles contribution data
 function UserContributionContent({ username }: { username: string }) {
