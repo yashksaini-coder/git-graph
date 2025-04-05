@@ -11,6 +11,7 @@
   "dependencies": {
     "@octokit/graphql": "^8.2.1",
     "@radix-ui/react-avatar": "^1.1.3",
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-switch": "^1.1.3",
     "class-variance-authority": "^0.7.1",
@@ -24,6 +25,7 @@
     "react": "^19.0.0",
     "react-activity-calendar": "^2.7.10",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
     "sonner": "^2.0.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"

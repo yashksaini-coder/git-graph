@@ -32,7 +32,7 @@ export default function CustomizationPanel({ setTheme }: { setTheme: (theme: The
 
   return (
     <Card className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 text-white px-4 py-8 rounded-2xl shadow-md w-full h-fit max-w-md gap-4">
-      <CardHeader className="text-white text-lg font-semibold">🎨 Themes</CardHeader>
+      {/* <CardHeader className="text-white text-lg font-semibold">🎨 Themes</CardHeader> */}
 
       <CardContent className="space-y-2 mt-2">
         {Object.keys(themes).map((themeName) => (

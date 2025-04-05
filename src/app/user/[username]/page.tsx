@@ -14,7 +14,27 @@ import { useRouter, useParams } from "next/navigation";
 import React, { Suspense } from "react";
 import CustomizationPanel from "@/components/shared/CustomizationPanel";
 import UserInfo from "@/components/UserInfo";
+import { RiSidebarFoldFill } from "react-icons/ri";
 // import { Switch } from "@radix-ui/react-switch";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { ChevronRight } from "lucide-react";
+import { IoColorPaletteOutline } from "react-icons/io5";
+import { FaBorderStyle } from "react-icons/fa";
+import { MdCenterFocusWeak } from "react-icons/md";
+import { AiOutlineFontSize } from "react-icons/ai";
+
+interface SidebarProps {
+  triggerText: string;
+  title: string;
+  description: string;
+}
 
 // Component that uses router and handles contribution data
 function UserContributionContent({ username }: { username: string }) {
@@ -28,6 +48,7 @@ function UserContributionContent({ username }: { username: string }) {
   const downloadDivRef = useRef<HTMLDivElement>(null);
   const dataFetchedRef = useRef(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showCustomization, setShowCustomization] = useState(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
@@ -164,7 +185,21 @@ function UserContributionContent({ username }: { username: string }) {
 
   return (
     <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex lg:flex-row-reverse flex-col-reverse lg:flex-nowrap flex-wrap justify-center items-center gap-6 h-fit">
-      <CustomizationPanel setTheme={setTheme} />
+      {/* <CustomizationPanel setTheme={setTheme} /> */}
+      <Sheet onOpenChange={(open) => {if (!open) setShowCustomization(false);}}>
+            <SheetTrigger className="fixed right-0 bg-[#05063292] hover:bg-[#1d1d37b9] rounded-2xl py-10 px-2 text-3xl"><RiSidebarFoldFill /></SheetTrigger>
+            <SheetContent className="bg-black">
+                <SheetHeader className="mt-14 overflow-y-scroll">
+                    {/* <SheetTitle>{title}</SheetTitle> */}
+                    <Button variant="outline" onClick={() => setShowCustomization((prev) => !prev)} className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><IoColorPaletteOutline className="mr-2"/> Themes</div> <ChevronRight className={`ml-2 h-5 w-5 ${showCustomization? 'rotate-90' : ''}`} /></Button>
+                    {showCustomization && <CustomizationPanel setTheme={setTheme} />}
+                    <Button variant="outline" className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><FaBorderStyle className="mr-2"/> Borders</div> <ChevronRight className="ml-2 h-5 w-5" /></Button>
+                    <Button variant="outline" className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><MdCenterFocusWeak className="mr-2"/> Backdrop</div> <ChevronRight className="ml-2 h-5 w-5" /></Button>
+                    <Button variant="outline" className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><AiOutlineFontSize className="mr-2"/> Fonts</div> <ChevronRight className="ml-2 h-5 w-5" /></Button>
+                </SheetHeader>
+            </SheetContent>
+        </Sheet>
+
       <div className="flex flex-col items-center justify-center">
         <div
           ref={downloadDivRef}

@@ -9,11 +9,13 @@ if (!GITHUB_TOKEN) {
 
 export const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
+  // auth: GITHUB_TOKEN,
 });
 
 // Initialize the GraphQL client with authentication
 export const octokitGraphQL = graphql.defaults({
   headers: {
     authorization: `token ${process.env.GITHUB_TOKEN}`,
+    // authorization: `token ${GITHUB_TOKEN}`,
   },
 });
