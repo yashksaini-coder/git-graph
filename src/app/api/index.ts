@@ -61,6 +61,12 @@ export async function getProfile(username: string) {
         repositories {
           totalCount
         }
+        issues {
+          totalCount
+        }
+        pullRequests {
+          totalCount
+        }
       }
     }`;
 
