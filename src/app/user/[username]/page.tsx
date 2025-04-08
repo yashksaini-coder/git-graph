@@ -13,7 +13,8 @@ import React, { Suspense } from "react";
 import CustomizationPanel from "@/components/shared/CustomizationPanel";
 import UserInfo from "@/components/UserInfo";
 import { RiSidebarFoldFill } from "react-icons/ri";
-import GitHubCalendar from 'react-github-calendar';
+import GitHubCalendar from "react-github-calendar";
+import { Download } from 'lucide-react';
 // import { Switch } from "@radix-ui/react-switch";
 import {
   Sheet,
@@ -42,12 +43,14 @@ function UserContributionContent({ username }: { username: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [theme, setTheme] = useState(DefaultTheme);
-  const [themeName,setThemeName] = useState(localStorage.getItem("selectedTheme"));
+  const [themeName, setThemeName] = useState(
+    localStorage.getItem("selectedTheme")
+  );
   const [contributionData, setContributionData] =
     useState<ContributionCalendar | null>(null);
   const downloadDivRef = useRef<HTMLDivElement>(null);
   const dataFetchedRef = useRef(false);
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showProfile, setShowProfile] = useState(true);
   const [showCustomization, setShowCustomization] = useState(false);
 
   useEffect(() => {
@@ -195,42 +198,94 @@ function UserContributionContent({ username }: { username: string }) {
   return (
     <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex lg:flex-row-reverse flex-col-reverse lg:flex-nowrap flex-wrap justify-center items-center gap-6 h-fit">
       {/* <CustomizationPanel setTheme={setTheme} /> */}
-      <Sheet onOpenChange={(open) => {if (!open) setShowCustomization(false);}}>
-            <SheetTrigger className="fixed right-0 bg-[#05063292] hover:bg-[#1d1d37b9] rounded-2xl py-10 px-2 text-3xl"><RiSidebarFoldFill /></SheetTrigger>
-            <SheetContent className="bg-black">
-                <SheetHeader className="mt-14 overflow-y-scroll">
-                    {/* <SheetTitle>{title}</SheetTitle> */}
-                    <Button variant="outline" onClick={() => setShowCustomization((prev) => !prev)} className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><IoColorPaletteOutline className="mr-2"/> Themes</div> <ChevronRight className={`ml-2 h-5 w-5 ${showCustomization? 'rotate-90' : ''}`} /></Button>
-                    {showCustomization && <CustomizationPanel setTheme={setTheme} />}
-                    <Button variant="outline" className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><FaBorderStyle className="mr-2"/> Borders</div> <ChevronRight className="ml-2 h-5 w-5" /></Button>
-                    <Button variant="outline" className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><MdCenterFocusWeak className="mr-2"/> Backdrop</div> <ChevronRight className="ml-2 h-5 w-5" /></Button>
-                    <Button variant="outline" className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"><div className="flex justify-center items-center"><AiOutlineFontSize className="mr-2"/> Fonts</div> <ChevronRight className="ml-2 h-5 w-5" /></Button>
-                </SheetHeader>
-            </SheetContent>
-        </Sheet>
+      <Sheet
+        onOpenChange={(open) => {
+          if (!open) setShowCustomization(false);
+        }}
+      >
+        <SheetTrigger className="fixed right-0 bg-[#05063292] hover:bg-[#1d1d37b9] rounded-2xl py-10 px-2 text-3xl">
+          <RiSidebarFoldFill />
+        </SheetTrigger>
+        <SheetContent className="bg-black">
+          <SheetHeader className="mt-14 overflow-y-scroll">
+            {/* <SheetTitle>{title}</SheetTitle> */}
+            <Button
+              variant="outline"
+              onClick={() => setShowCustomization((prev) => !prev)}
+              className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
+            >
+              <div className="flex justify-center items-center">
+                <IoColorPaletteOutline className="mr-2" /> Themes
+              </div>{" "}
+              <ChevronRight
+                className={`ml-2 h-5 w-5 ${
+                  showCustomization ? "rotate-90" : ""
+                }`}
+              />
+            </Button>
+            {showCustomization && <CustomizationPanel setTheme={setTheme} />}
+            <Button
+              variant="outline"
+              className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
+            >
+              <div className="flex justify-center items-center">
+                <FaBorderStyle className="mr-2" /> Borders
+              </div>{" "}
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
+            >
+              <div className="flex justify-center items-center">
+                <MdCenterFocusWeak className="mr-2" /> Backdrop
+              </div>{" "}
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
+            >
+              <div className="flex justify-center items-center">
+                <AiOutlineFontSize className="mr-2" /> Fonts
+              </div>{" "}
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </Button>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
 
       <div className="flex flex-col items-center justify-center">
         <div
           ref={downloadDivRef}
           className="relative w-full max-w-4xl space-y-8 p-3 md:p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-800 shadow-xl transition-all duration-300 hover:shadow-2xl"
         >
-          <UserInfo showProfile={showProfile} username={username} />
+          <UserInfo username={username} />
           <div className="flex flex-col items-center justify-center">
-            {!showProfile && (
+            {/* {!username && (
               <h1 className="text-2xl md:text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
                 {username}&apos;s Contribution Graph
               </h1>
-            )}
+              )
+            } */}
             <div className="w-full max-w-[80vw] overflow-x-auto">
               <div className="min-w-full pb-2">
                 <GitHubCalendar
                   username={username}
                   blockSize={12}
                   blockMargin={4}
-                  theme={themeName === "Dark" || themeName === "Light" ? undefined : theme}
+                  theme={
+                    themeName === "Dark" || themeName === "Light"
+                      ? undefined
+                      : theme
+                  }
                   fontSize={12}
                   colorScheme={
-                    themeName === "Dark" ? "dark" : themeName === "Light" ? "light" : undefined
+                    themeName === "Dark"
+                      ? "dark"
+                      : themeName === "Light"
+                      ? "light"
+                      : undefined
                   }
                 />
               </div>
@@ -247,16 +302,16 @@ function UserContributionContent({ username }: { username: string }) {
           </Button> */}
           <Button
             onClick={handleDownload}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200 w-15"
           >
-            Download Graph
+            <Download/>
           </Button>
-          <Button
+          {/* <Button
             onClick={() => setShowProfile((prev) => !prev)}
             className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200"
           >
             Show Profile
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
