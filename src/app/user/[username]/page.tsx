@@ -306,12 +306,6 @@ function UserContributionContent({ username }: { username: string }) {
           >
             <Download/>
           </Button>
-          {/* <Button
-            onClick={() => setShowProfile((prev) => !prev)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200"
-          >
-            Show Profile
-          </Button> */}
         </div>
       </div>
     </div>
