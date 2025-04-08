@@ -26,6 +26,8 @@ export type UserProfileType = {
   following: Count;
   starredRepositories: Count;
   repositories: Count;
+  issues : Count;
+  pullRequests: Count;
 };
 
 type Count = {
