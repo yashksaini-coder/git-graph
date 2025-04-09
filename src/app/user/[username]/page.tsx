@@ -10,11 +10,12 @@ import { DefaultTheme, themes } from "@/lib/themes";
 import { Loader } from "@/components/loader";
 import { useRouter, useParams } from "next/navigation";
 import React, { Suspense } from "react";
-import CustomizationPanel from "@/components/shared/CustomizationPanel";
+import ThemesPanel from "@/components/shared/ThemesPanel";
+import HidePanel from "@/components/shared/HidePanel";
 import UserInfo from "@/components/UserInfo";
 import { RiSidebarFoldFill } from "react-icons/ri";
 import GitHubCalendar from "react-github-calendar";
-import { Download } from 'lucide-react';
+import { Download } from "lucide-react";
 // import { Switch } from "@radix-ui/react-switch";
 import {
   Sheet,
@@ -29,6 +30,8 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import { FaBorderStyle } from "react-icons/fa";
 import { MdCenterFocusWeak } from "react-icons/md";
 import { AiOutlineFontSize } from "react-icons/ai";
+import BlockPanel from "@/components/shared/BlockPanel";
+import FontPanel from "@/components/shared/FontPanel";
 
 // interface SidebarProps {
 //   triggerText: string;
@@ -52,6 +55,16 @@ function UserContributionContent({ username }: { username: string }) {
   const dataFetchedRef = useRef(false);
   // const [showProfile, setShowProfile] = useState(true);
   const [showCustomization, setShowCustomization] = useState(false);
+  const [blockMargin, setBlockMargin] = useState(4);
+  const [blockRadius, setBlockRadius] = useState(2);
+  const [blockSize, setBlockSize] = useState(12);
+  const [showBlockOptions, setshowBlockOptions] = useState(false);
+  const [hideColorLegend, sethideColorLegend] = useState(false);
+  const [hideMonthLabels, sethideMonthLabels] = useState(false);
+  const [hideTotalCount, sethideTotalCount] = useState(false);
+  const [showHideOptions, setShowHideOptions] = useState(false);
+  const [fontSize, setFontSize] = useState(12);
+  const [showFontOptions, setShowFontOptions] = useState(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
@@ -200,7 +213,12 @@ function UserContributionContent({ username }: { username: string }) {
       {/* <CustomizationPanel setTheme={setTheme} /> */}
       <Sheet
         onOpenChange={(open) => {
-          if (!open) setShowCustomization(false);
+          if (!open) {
+            setShowCustomization(false);
+            setshowBlockOptions(false); // Close the BlockPanel when the sheet is closed
+            setShowHideOptions(false);
+            setShowFontOptions(false); // Close the FontPanel when the sheet is closed
+          }
         }}
       >
         <SheetTrigger className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full py-3 px-3 text-2xl shadow-lg z-50">
@@ -223,34 +241,72 @@ function UserContributionContent({ username }: { username: string }) {
                 }`}
               />
             </Button>
-            {showCustomization && <CustomizationPanel setTheme={setTheme} />}
+            {showCustomization && <ThemesPanel setTheme={setTheme} />}
             <Button
               variant="outline"
+              onClick={() => setshowBlockOptions((prev) => !prev)}
               className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
             >
               <div className="flex justify-center items-center">
-                <FaBorderStyle className="mr-2" /> Borders
+                <FaBorderStyle className="mr-2" /> Blocks
               </div>{" "}
-              <ChevronRight className="ml-2 h-5 w-5" />
+              <ChevronRight
+                className={`ml-2 h-5 w-5 ${
+                  showBlockOptions ? "rotate-90" : ""
+                }`}
+              />
             </Button>
+            {showBlockOptions && (
+              <BlockPanel
+                blockMargin={blockMargin}
+                setBlockMargin={setBlockMargin}
+                blockRadius={blockRadius}
+                setBlockRadius={setBlockRadius}
+                blockSize={blockSize}
+                setBlockSize={setBlockSize}
+              />
+            )}
             <Button
               variant="outline"
+              onClick={() => setShowHideOptions((prev) => !prev)} // Toggle the state
               className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
             >
               <div className="flex justify-center items-center">
-                <MdCenterFocusWeak className="mr-2" /> Backdrop
+                <MdCenterFocusWeak className="mr-2" /> Hide
               </div>{" "}
-              <ChevronRight className="ml-2 h-5 w-5" />
+              <ChevronRight
+                className={`ml-2 h-5 w-5 ${
+                  showHideOptions ? "rotate-90" : "" // Rotate the icon when open
+                }`}
+              />
             </Button>
+            {showHideOptions && (
+              <HidePanel
+                hideColorLegend={hideColorLegend}
+                sethideColorLegend={sethideColorLegend}
+                hideMonthLabels={hideMonthLabels}
+                sethideMonthLabels={sethideMonthLabels}
+                hideTotalCount={hideTotalCount}
+                sethideTotalCount={sethideTotalCount}
+              />
+            )}
             <Button
               variant="outline"
+              onClick={() => setShowFontOptions((prev) => !prev)} // Toggle the state
               className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
             >
               <div className="flex justify-center items-center">
                 <AiOutlineFontSize className="mr-2" /> Fonts
               </div>{" "}
-              <ChevronRight className="ml-2 h-5 w-5" />
+              <ChevronRight
+                className={`ml-2 h-5 w-5 ${
+                  showFontOptions ? "rotate-90" : "" // Rotate the icon when open
+                }`}
+              />
             </Button>
+            {showFontOptions && (
+              <FontPanel fontSize={fontSize} setFontSize={setFontSize} />
+            )}
           </SheetHeader>
         </SheetContent>
       </Sheet>
@@ -272,14 +328,18 @@ function UserContributionContent({ username }: { username: string }) {
               <div className="min-w-full pb-2">
                 <GitHubCalendar
                   username={username}
-                  blockSize={12}
-                  blockMargin={4}
+                  blockSize={blockSize}
+                  blockMargin={blockMargin}
+                  blockRadius={blockRadius}
                   theme={
                     themeName === "Dark" || themeName === "Light"
                       ? undefined
                       : theme
                   }
-                  fontSize={12}
+                  fontSize={fontSize}
+                  hideColorLegend={hideColorLegend}
+                  hideMonthLabels={hideMonthLabels}
+                  hideTotalCount={hideTotalCount}
                   colorScheme={
                     themeName === "Dark"
                       ? "dark"
@@ -304,7 +364,7 @@ function UserContributionContent({ username }: { username: string }) {
             onClick={handleDownload}
             className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200 w-15"
           >
-            <Download/>
+            <Download />
           </Button>
         </div>
       </div>
