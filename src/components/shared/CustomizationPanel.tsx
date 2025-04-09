@@ -4,11 +4,7 @@ import { useState, useEffect } from "react";
 import { DefaultTheme, DarkTheme, LightTheme, ColorfulTheme } from "@/lib/themes";
 import { ThemeInput } from "react-activity-calendar";
 import { Button } from "@/components/ui/button";
-import { 
-  Card, 
-  // CardHeader, 
-  CardContent 
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 const themes: { [key: string]: ThemeInput } = {
   Default: DefaultTheme,
@@ -36,26 +32,38 @@ export default function CustomizationPanel({ setTheme }: { setTheme: (theme: The
 
   return (
     <Card className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 text-white px-4 py-8 rounded-2xl shadow-md w-full h-fit max-w-md gap-4">
-      {/* <CardHeader className="text-white text-lg font-semibold">🎨 Themes</CardHeader> */}
-
-      <CardContent className="space-y-2 mt-2">
-        {Object.keys(themes).map((themeName) => (
-          <button
-            key={themeName}
-            onClick={() => handleThemeChange(themeName)}
-            className={`flex justify-between items-center px-3 py-2 rounded-md w-full text-sm font-medium transition-all cursor-pointer ${
-              selectedTheme === themeName
-                ? "bg-blue-500 text-white shadow-md"
-                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-            }`}
-          >
-            {themeName}
-            <span
-              className="w-5 h-5 rounded-full border border-gray-500"
-              style={{ backgroundColor: themes[themeName]?.light?.[0] || "transparent" }}
-            />
-          </button>
-        ))}
+      <CardContent className="space-y-4 mt-2">
+        <div className="space-y-3">
+          {Object.keys(themes).map((themeName) => (
+            <div key={themeName} className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span
+                  className="w-4 h-4 rounded-full border border-gray-500"
+                  style={{
+                    backgroundColor: themes[themeName]?.light?.[0] || "transparent",
+                  }}
+                ></span>
+                <span className="text-sm font-medium text-gray-300">{themeName}</span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="theme"
+                  value={themeName}
+                  checked={selectedTheme === themeName}
+                  onChange={() => handleThemeChange(themeName)}
+                  className="sr-only peer"
+                />
+                <div
+                  className={`w-11 h-6 bg-gray-700 rounded-full transition-colors duration-300 peer-checked:bg-blue-500`}
+                ></div>
+                <div
+                  className={`w-5 h-5 bg-white rounded-full shadow-md absolute top-0.5 left-0.5 transition-transform duration-300 peer-checked:translate-x-5`}
+                ></div>
+              </label>
+            </div>
+          ))}
+        </div>
 
         <Button
           onClick={() => handleThemeChange("Default")}
