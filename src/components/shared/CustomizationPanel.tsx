@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { DefaultTheme, DarkTheme, LightTheme, ColorfulTheme } from "@/lib/themes";
+import { DefaultTheme, LightTheme, ColorfulTheme } from "@/lib/themes";
 import { ThemeInput } from "react-activity-calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const themes: { [key: string]: ThemeInput } = {
   Default: DefaultTheme,
-  Dark: DarkTheme,
   Light: LightTheme,
   Colorful: ColorfulTheme,
 };

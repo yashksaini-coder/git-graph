@@ -1,13 +1,8 @@
 import { ThemeInput } from "react-activity-calendar";
 
 export const DefaultTheme: ThemeInput = {
-  light: ["#e6edf3", "#9ebeff"],
-  dark: ["#dad7cd", "#a3b18a", "#588157", "#3a5a40", "#344e41"], 
-};
-
-export const DarkTheme: ThemeInput = {
-  light: ["#3a4b63", "#273649"], 
-  dark: ["#2c3e50", "#34495e", "#1f2a38", "#0f1c2e", "#050c17"], 
+  light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+  dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
 };
 
 export const LightTheme: ThemeInput = {
@@ -22,7 +17,6 @@ export const ColorfulTheme: ThemeInput = {
 
 export const themes: Record<string, ThemeInput> = {
   default: DefaultTheme,
-  dark: DarkTheme,
   light: LightTheme,
   colorful: ColorfulTheme,
 };
