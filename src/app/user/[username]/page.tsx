@@ -203,10 +203,10 @@ function UserContributionContent({ username }: { username: string }) {
           if (!open) setShowCustomization(false);
         }}
       >
-        <SheetTrigger className="fixed right-0 bg-[#05063292] hover:bg-[#1d1d37b9] rounded-2xl py-10 px-2 text-3xl">
-          <RiSidebarFoldFill />
+        <SheetTrigger className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full py-3 px-3 text-2xl shadow-lg z-50">
+          <RiSidebarFoldFill className="text-white" />
         </SheetTrigger>
-        <SheetContent className="bg-black">
+        <SheetContent className="backdrop-blur">
           <SheetHeader className="mt-14 overflow-y-scroll">
             {/* <SheetTitle>{title}</SheetTitle> */}
             <Button
