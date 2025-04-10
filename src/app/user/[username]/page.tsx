@@ -16,6 +16,7 @@ import UserInfo from "@/components/UserInfo";
 import { RiSidebarFoldFill } from "react-icons/ri";
 import GitHubCalendar from "react-github-calendar";
 import { Download } from "lucide-react";
+import ExportPanel from "@/components/ExportPanel";
 // import { Switch } from "@radix-ui/react-switch";
 import {
   Sheet,
@@ -32,6 +33,7 @@ import { MdCenterFocusWeak } from "react-icons/md";
 import { AiOutlineFontSize } from "react-icons/ai";
 import BlockPanel from "@/components/shared/BlockPanel";
 import FontPanel from "@/components/shared/FontPanel";
+// import PopoverDemo from "@/components/PopOverSidebar";
 
 // interface SidebarProps {
 //   triggerText: string;
@@ -221,7 +223,7 @@ function UserContributionContent({ username }: { username: string }) {
           }
         }}
       >
-        <SheetTrigger className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full py-3 px-3 text-2xl shadow-lg z-50">
+        <SheetTrigger className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full py-3 px-3 text-2xl shadow-lg z-50 lg:hidden md:hidden">
           <RiSidebarFoldFill className="text-white" />
         </SheetTrigger>
         <SheetContent className="backdrop-blur">
@@ -366,6 +368,25 @@ function UserContributionContent({ username }: { username: string }) {
           >
             <Download />
           </Button>
+        </div>
+        <div className="hidden sm:flex justify-center mt-4">
+          <ExportPanel
+             onExport={handleDownload}
+            setTheme={setTheme}
+            hideColorLegend={hideColorLegend}
+            sethideColorLegend={sethideColorLegend}
+            hideMonthLabels={hideMonthLabels}
+            sethideMonthLabels={sethideMonthLabels}
+            hideTotalCount={hideTotalCount}
+            sethideTotalCount={sethideTotalCount}
+            blockMargin={blockMargin}
+            setBlockMargin={setBlockMargin}
+            blockRadius={blockRadius}
+            setBlockRadius={setBlockRadius}
+            blockSize={blockSize}
+            setBlockSize={setBlockSize}
+            fontSize={fontSize} setFontSize={setFontSize}
+          />
         </div>
       </div>
     </div>
