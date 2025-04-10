@@ -12,9 +12,9 @@
 > Here's a working and expected screenshot of **_Git Graph_**
 
 
-| Landing Page  |
-|------------|
-| ![Demo](public/demo.png) |
+| Landing Page  | User Display |
+|------------|------------|
+| ![Demo](public/demo.png) | ![User](public/demo2.png)|
 
 ---
 
