@@ -362,16 +362,18 @@ function UserContributionContent({ username }: { username: string }) {
           >
             Search Another User
           </Button> */}
-          <Button
-            onClick={handleDownload}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200 w-15"
-          >
-            <Download />
-          </Button>
+          <span className="sm:hidden">
+            <Button
+              onClick={handleDownload}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200 w-15"
+            >
+              <Download />
+            </Button>
+          </span>
         </div>
-        <div className="hidden sm:flex justify-center mt-4">
+        <span className="hidden sm:flex">
           <ExportPanel
-             onExport={handleDownload}
+            onExport={handleDownload}
             setTheme={setTheme}
             hideColorLegend={hideColorLegend}
             sethideColorLegend={sethideColorLegend}
@@ -385,9 +387,10 @@ function UserContributionContent({ username }: { username: string }) {
             setBlockRadius={setBlockRadius}
             blockSize={blockSize}
             setBlockSize={setBlockSize}
-            fontSize={fontSize} setFontSize={setFontSize}
+            fontSize={fontSize}
+            setFontSize={setFontSize}
           />
-        </div>
+        </span>
       </div>
     </div>
   );
