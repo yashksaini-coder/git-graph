@@ -7,9 +7,9 @@ import ThemesPanel from "@/components/shared/ThemesPanel";
 import HidePanel from "./shared/HidePanel";
 import BlockPanel from "./shared/BlockPanel";
 import FontPanel from "./shared/FontPanel";
+import { ThemeInput } from "react-activity-calendar";
 
 const ExportPanel = ({
-  onExport,
   setTheme,
   hideColorLegend,
   sethideColorLegend,
@@ -27,7 +27,7 @@ const ExportPanel = ({
   setFontSize,
 }: {
   onExport: () => void;
-  setTheme: (theme: any) => void;
+  setTheme: (theme: ThemeInput) => void;
   hideColorLegend: boolean;
   sethideColorLegend: (value: boolean) => void;
   hideMonthLabels: boolean;
