@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DefaultTheme, LightTheme, ColorfulTheme } from "@/lib/themes";
 import { ThemeInput } from "react-activity-calendar";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,11 @@ const themes: { [key: string]: ThemeInput } = {
   Colorful: ColorfulTheme,
 };
 
-export default function ThemesPanel({ setTheme }: { setTheme: (theme: ThemeInput) => void }) {
+export default function ThemesPanel({
+  setTheme,
+}: {
+  setTheme: (theme: ThemeInput) => void;
+}) {
   const [selectedTheme, setSelectedTheme] = useState<string>("Default");
 
   useEffect(() => {
@@ -39,10 +43,13 @@ export default function ThemesPanel({ setTheme }: { setTheme: (theme: ThemeInput
                 <span
                   className="w-4 h-4 rounded-full border border-gray-500"
                   style={{
-                    backgroundColor: themes[themeName]?.light?.[0] || "transparent",
+                    backgroundColor:
+                      themes[themeName]?.light?.[0] || "transparent",
                   }}
                 ></span>
-                <span className="text-sm font-medium text-gray-300">{themeName}</span>
+                <span className="text-sm font-medium text-gray-300">
+                  {themeName}
+                </span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -53,12 +60,8 @@ export default function ThemesPanel({ setTheme }: { setTheme: (theme: ThemeInput
                   onChange={() => handleThemeChange(themeName)}
                   className="sr-only peer"
                 />
-                <div
-                  className={`w-11 h-6 bg-gray-700 rounded-full transition-colors duration-300 peer-checked:bg-blue-500`}
-                ></div>
-                <div
-                  className={`w-5 h-5 bg-white rounded-full shadow-md absolute top-0.5 left-0.5 transition-transform duration-300 peer-checked:translate-x-5`}
-                ></div>
+                <div className="w-11 h-6 bg-gray-700 rounded-full transition-colors duration-300 peer-checked:bg-blue-500"></div>
+                <div className="w-5 h-5 bg-white rounded-full shadow-md absolute top-0.5 left-0.5 transition-transform duration-300 peer-checked:translate-x-5"></div>
               </label>
             </div>
           ))}
@@ -74,5 +77,3 @@ export default function ThemesPanel({ setTheme }: { setTheme: (theme: ThemeInput
     </Card>
   );
 }
-
-
