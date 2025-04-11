@@ -75,15 +75,19 @@ function UserContributionContent({ username }: { username: string }) {
     }
   }, []);
  
-  useEffect(() => {
-    //Fix for unavailability of localStorage in SSR during the initial render 
-    if (typeof window !== "undefined") {
-      const storedTheme = localStorage.getItem("selectedTheme");
-      if (storedTheme) {
-        setThemeName(storedTheme);
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const storedTheme = localStorage.getItem("selectedTheme");
+    if (storedTheme) {
+      setThemeName(storedTheme);
+      // Assuming you have a way to get theme object by name:
+      const themeObj = getThemeByName(storedTheme); // Implement this
+      if (themeObj) {
+        setTheme(themeObj);
       }
     }
-  }, [theme]);
+  }
+}, []);
 
   const handleDownload = useCallback(async () => {
     if (!downloadDivRef.current) return;
