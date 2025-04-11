@@ -75,19 +75,14 @@ function UserContributionContent({ username }: { username: string }) {
     }
   }, []);
  
-useEffect(() => {
-  if (typeof window !== "undefined") {
+ useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
     if (storedTheme) {
       setThemeName(storedTheme);
-      // Assuming you have a way to get theme object by name:
-      const themeObj = getThemeByName(storedTheme); // Implement this
-      if (themeObj) {
-        setTheme(themeObj);
-      }
+    } else {
+      setThemeName("Default");
     }
-  }
-}, []);
+  }, [theme]);
 
   const handleDownload = useCallback(async () => {
     if (!downloadDivRef.current) return;
