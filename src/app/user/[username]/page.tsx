@@ -17,13 +17,13 @@ import { RiSidebarFoldFill } from "react-icons/ri";
 import GitHubCalendar from "react-github-calendar";
 import { Download } from "lucide-react";
 import ExportPanel from "@/components/ExportPanel";
+import html2canvas from "html2canvas";
+import axios from "axios";
 // import { Switch } from "@radix-ui/react-switch";
 import {
   Sheet,
   SheetContent,
-  // SheetDescription,
   SheetHeader,
-  // SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ChevronRight } from "lucide-react";
@@ -33,15 +33,72 @@ import { MdCenterFocusWeak } from "react-icons/md";
 import { AiOutlineFontSize } from "react-icons/ai";
 import BlockPanel from "@/components/shared/BlockPanel";
 import FontPanel from "@/components/shared/FontPanel";
-// import PopoverDemo from "@/components/PopOverSidebar";
 
-// interface SidebarProps {
-//   triggerText: string;
-//   title: string;
-//   description: string;
-// }
+const getShareImage = async (divRef: React.RefObject<HTMLDivElement | null>, filename?: string) => {
+  if (!divRef.current) {
+    toast.error("Unable to find the element to capture.");
+    return;
+  }
 
-// Component that uses router and handles contribution data
+  const graphElement = divRef.current!;
+  const originalWidth = graphElement.style.width;
+  const originalOverflow = graphElement.style.overflow;
+
+  // Temporarily adjust the graph element for better capture
+  graphElement.style.width = "1200px";
+  graphElement.style.overflow = "visible";
+
+  // Force a supported background color
+  const originalBackgroundColor = graphElement.style.backgroundColor;
+  graphElement.style.backgroundColor = "#1a1a1a"; // Set to a supported color
+
+  await new Promise((resolve) => setTimeout(resolve, 300)); // Wait for styles to apply
+
+  try {
+    // Capture the graph element as an image
+    const canvas = await html2canvas(graphElement, {
+      backgroundColor: "#1a1a1a", // Ensure background color is set
+      useCORS: true, // Allow cross-origin images
+    });
+
+    // Restore the original styles
+    graphElement.style.width = originalWidth;
+    graphElement.style.overflow = originalOverflow;
+    graphElement.style.backgroundColor = originalBackgroundColor;
+
+    // Convert the canvas to a base64 image
+    const base64Image: string = canvas.toDataURL("image/png").split(",")[1]; // Remove the prefix
+
+    // Prepare the form data for ImgBB upload
+    const formData = new FormData();
+    formData.append("image", base64Image);
+    formData.append("name", filename || "contribution-graph");
+    formData.append("key", process.env.NEXT_PUBLIC_IMGBB_API_KEY || "");
+
+    console.log("Form Data:", formData);
+
+    // Upload the image to ImgBB
+    const response = await axios.post("https://api.imgbb.com/1/upload", formData);
+    console.log("ImgBB Response:", response.data);
+    const imageUrl = response.data.data.url;
+    // console.log(object)
+    // Copy the image URL to the clipboard
+    navigator.clipboard.writeText(imageUrl);
+    toast.success("Image URL copied to clipboard! Sharing on Twitter...");
+
+    // Open Twitter's share URL with the image link
+    window.open(
+      `https://twitter.com/intent/tweet?text=Check%20out%20my%20GitHub%20contributions!&url=${encodeURIComponent(
+        imageUrl
+      )}`,
+      "_blank"
+    );
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    toast.error("Failed to upload the image.");
+  }
+};
+
 function UserContributionContent({ username }: { username: string }) {
   const router = useRouter();
 
@@ -53,7 +110,6 @@ function UserContributionContent({ username }: { username: string }) {
     useState<ContributionCalendar | null>(null);
   const downloadDivRef = useRef<HTMLDivElement>(null);
   const dataFetchedRef = useRef(false);
-  // const [showProfile, setShowProfile] = useState(true);
   const [showCustomization, setShowCustomization] = useState(false);
   const [blockMargin, setBlockMargin] = useState(4);
   const [blockRadius, setBlockRadius] = useState(2);
@@ -74,8 +130,8 @@ function UserContributionContent({ username }: { username: string }) {
       setTheme(DefaultTheme);
     }
   }, []);
- 
- useEffect(() => {
+
+  useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
     if (storedTheme) {
       setThemeName(storedTheme);
@@ -116,13 +172,15 @@ function UserContributionContent({ username }: { username: string }) {
     );
   }, [username]);
 
-  // Navigate back to home
+  const handleShareImage = useCallback(async () => {
+    await getShareImage(downloadDivRef, `${username}-github-contributions`);
+  }, [username]);
+
   const handleBackToSearch = useCallback(() => {
     router.push("/");
   }, [router]);
 
   useEffect(() => {
-    // Prevent duplicate fetches on route changes
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
 
@@ -132,11 +190,10 @@ function UserContributionContent({ username }: { username: string }) {
 
       try {
         const startTime = Date.now();
-        const minLoadingTime = 5000; // Reduced minimum loading time for better UX
+        const minLoadingTime = 5000;
 
         const contributions = await getContributions(username);
 
-        // Ensure loader displays for at least minLoadingTime
         const elapsedTime = Date.now() - startTime;
         if (elapsedTime < minLoadingTime) {
           await new Promise((resolve) =>
@@ -168,7 +225,6 @@ function UserContributionContent({ username }: { username: string }) {
     }
   }, [username]);
 
-  // Handle error state
   useEffect(() => {
     if (isError) {
       const timer = setTimeout(() => {
@@ -210,14 +266,13 @@ function UserContributionContent({ username }: { username: string }) {
 
   return (
     <div className="container mx-auto my-16 px-2 py-8 animate-fade-in flex lg:flex-row-reverse flex-col-reverse lg:flex-nowrap flex-wrap justify-center items-center gap-6 h-fit">
-      {/* <CustomizationPanel setTheme={setTheme} /> */}
       <Sheet
         onOpenChange={(open) => {
           if (!open) {
             setShowCustomization(false);
-            setshowBlockOptions(false); // Close the BlockPanel when the sheet is closed
+            setshowBlockOptions(false);
             setShowHideOptions(false);
-            setShowFontOptions(false); // Close the FontPanel when the sheet is closed
+            setShowFontOptions(false);
           }
         }}
       >
@@ -226,7 +281,6 @@ function UserContributionContent({ username }: { username: string }) {
         </SheetTrigger>
         <SheetContent className="backdrop-blur">
           <SheetHeader className="mt-14 overflow-y-scroll">
-            {/* <SheetTitle>{title}</SheetTitle> */}
             <Button
               variant="outline"
               onClick={() => setShowCustomization((prev) => !prev)}
@@ -268,7 +322,7 @@ function UserContributionContent({ username }: { username: string }) {
             )}
             <Button
               variant="outline"
-              onClick={() => setShowHideOptions((prev) => !prev)} // Toggle the state
+              onClick={() => setShowHideOptions((prev) => !prev)}
               className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
             >
               <div className="flex justify-center items-center">
@@ -276,7 +330,7 @@ function UserContributionContent({ username }: { username: string }) {
               </div>{" "}
               <ChevronRight
                 className={`ml-2 h-5 w-5 ${
-                  showHideOptions ? "rotate-90" : "" // Rotate the icon when open
+                  showHideOptions ? "rotate-90" : ""
                 }`}
               />
             </Button>
@@ -292,7 +346,7 @@ function UserContributionContent({ username }: { username: string }) {
             )}
             <Button
               variant="outline"
-              onClick={() => setShowFontOptions((prev) => !prev)} // Toggle the state
+              onClick={() => setShowFontOptions((prev) => !prev)}
               className="flex justify-between rounded-2xl my-1 hover:bg-[#ffffff25]"
             >
               <div className="flex justify-center items-center">
@@ -300,7 +354,7 @@ function UserContributionContent({ username }: { username: string }) {
               </div>{" "}
               <ChevronRight
                 className={`ml-2 h-5 w-5 ${
-                  showFontOptions ? "rotate-90" : "" // Rotate the icon when open
+                  showFontOptions ? "rotate-90" : ""
                 }`}
               />
             </Button>
@@ -318,12 +372,6 @@ function UserContributionContent({ username }: { username: string }) {
         >
           <UserInfo username={username} />
           <div className="flex flex-col items-center justify-center">
-            {/* {!username && (
-              <h1 className="text-2xl md:text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-6">
-                {username}&apos;s Contribution Graph
-              </h1>
-              )
-            } */}
             <div className="w-full max-w-[80vw] overflow-x-auto">
               <div className="min-w-full pb-2">
                 <GitHubCalendar
@@ -353,13 +401,6 @@ function UserContributionContent({ username }: { username: string }) {
           </div>
         </div>
         <div className="flex items-center justify-between w-full z-50 relative mt-6 gap-4">
-          {/* <Switch checked={showProfile} onCheckedChange={setShowProfile} /> */}
-          {/* <Button
-            onClick={handleBackToSearch}
-            className="bg-gray-700 hover:bg-gray-600 text-white cursor-pointer transition-colors duration-200"
-          >
-            Search Another User
-          </Button> */}
           <span className="sm:hidden">
             <Button
               onClick={handleDownload}
@@ -368,6 +409,22 @@ function UserContributionContent({ username }: { username: string }) {
               <Download />
             </Button>
           </span>
+          <span className="sm:hidden">
+            <Button
+              onClick={handleShareImage}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white cursor-pointer transition-all duration-200 w-15"
+            >
+              Share
+            </Button>
+          </span>
+        </div>
+        <div className="flex items-center justify-center mt-6">
+          <Button
+            onClick={handleShareImage}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+          >
+            Share on Twitter
+          </Button>
         </div>
         <span className="hidden sm:flex">
           <ExportPanel
