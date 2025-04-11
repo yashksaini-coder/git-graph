@@ -48,9 +48,7 @@ function UserContributionContent({ username }: { username: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [theme, setTheme] = useState(DefaultTheme);
-  const [themeName, setThemeName] = useState(
-    localStorage.getItem("selectedTheme")
-  );
+  const [themeName, setThemeName] = useState("Default");
   const [contributionData, setContributionData] =
     useState<ContributionCalendar | null>(null);
   const downloadDivRef = useRef<HTMLDivElement>(null);
@@ -76,8 +74,8 @@ function UserContributionContent({ username }: { username: string }) {
       setTheme(DefaultTheme);
     }
   }, []);
-
-  useEffect(() => {
+ 
+ useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
     if (storedTheme) {
       setThemeName(storedTheme);
