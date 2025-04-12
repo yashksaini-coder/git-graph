@@ -15,7 +15,7 @@ import HidePanel from "@/components/shared/HidePanel";
 import UserInfo from "@/components/UserInfo";
 import { RiSidebarFoldFill } from "react-icons/ri";
 import GitHubCalendar from "react-github-calendar";
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import ExportPanel from "@/components/ExportPanel";
 // import { Switch } from "@radix-ui/react-switch";
 import {
@@ -74,8 +74,8 @@ function UserContributionContent({ username }: { username: string }) {
       setTheme(DefaultTheme);
     }
   }, []);
- 
- useEffect(() => {
+
+  useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
     if (storedTheme) {
       setThemeName(storedTheme);
@@ -352,6 +352,7 @@ function UserContributionContent({ username }: { username: string }) {
             </div>
           </div>
         </div>
+
         <div className="flex items-center justify-between w-full z-50 relative mt-6 gap-4">
           {/* <Switch checked={showProfile} onCheckedChange={setShowProfile} /> */}
           {/* <Button
@@ -360,6 +361,7 @@ function UserContributionContent({ username }: { username: string }) {
           >
             Search Another User
           </Button> */}
+
           <span className="sm:hidden">
             <Button
               onClick={handleDownload}
@@ -368,7 +370,17 @@ function UserContributionContent({ username }: { username: string }) {
               <Download />
             </Button>
           </span>
+          <Button
+            // onClick={shareOnTwitter}
+            variant="outline"
+            size="sm"
+            className="flex items-center space-x-2 "
+          >
+            <Share2 className="w-4 h-4" />
+            <span>Share</span>
+          </Button>
         </div>
+
         <span className="hidden sm:flex">
           <ExportPanel
             onExport={handleDownload}
