@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { getContributions } from "@/app/api/index";
-import { ContributionCalendar } from "@/utils/types";
+import { getContributions, getProfile } from "@/app/api/index";
+import { ContributionCalendar, UserProfileType } from "@/utils/types";
 import { toPng } from "html-to-image";
 import { DefaultTheme, themes } from "@/lib/themes";
 import { Loader } from "@/components/loader";
@@ -15,8 +15,9 @@ import HidePanel from "@/components/shared/HidePanel";
 import UserInfo from "@/components/UserInfo";
 import { RiSidebarFoldFill } from "react-icons/ri";
 import GitHubCalendar from "react-github-calendar";
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import ExportPanel from "@/components/ExportPanel";
+import { BASE_URL } from "@/utils/url";
 // import { Switch } from "@radix-ui/react-switch";
 import {
   Sheet,
@@ -53,7 +54,7 @@ function UserContributionContent({ username }: { username: string }) {
     useState<ContributionCalendar | null>(null);
   const downloadDivRef = useRef<HTMLDivElement>(null);
   const dataFetchedRef = useRef(false);
-  // const [showProfile, setShowProfile] = useState(true);
+  const [profile, setProfile] = useState<UserProfileType | null>(null);
   const [showCustomization, setShowCustomization] = useState(false);
   const [blockMargin, setBlockMargin] = useState(4);
   const [blockRadius, setBlockRadius] = useState(2);
@@ -74,8 +75,8 @@ function UserContributionContent({ username }: { username: string }) {
       setTheme(DefaultTheme);
     }
   }, []);
- 
- useEffect(() => {
+
+  useEffect(() => {
     const storedTheme = localStorage.getItem("selectedTheme");
     if (storedTheme) {
       setThemeName(storedTheme);
@@ -83,6 +84,52 @@ function UserContributionContent({ username }: { username: string }) {
       setThemeName("Default");
     }
   }, [theme]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userProfile = await getProfile(username);
+        if (userProfile) {
+          setProfile(userProfile);
+        } else {
+          toast.error("Failed to fetch profile data.");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Failed to fetch profile data.");
+      }
+    };
+
+    if (username) {
+      fetchProfile();
+    }
+  }, [username]);
+
+  const handleshare = useCallback(async () => {
+    if (!profile) {
+      toast.error("Profile data is not available.");
+      return;
+    }
+
+    const text = `
+      My Git-Graph Profile! 🚀 
+      Repositories - ${profile.repositories.totalCount} 
+      Total Issues- ${profile.issues.totalCount} 
+      Total Pull Requests - ${profile.pullRequests.totalCount} 
+
+      ${profile.followers.totalCount} Followers • ${
+      profile.following.totalCount
+    } Following
+      ${profile.bio || "Learning to Code"}
+      Check it out here: ${BASE_URL}/user/${username}
+      Try your own on: ${BASE_URL}
+    `;
+
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      text
+    )}`;
+    window.open(tweetUrl, "_blank");
+  }, [profile, username]);
 
   const handleDownload = useCallback(async () => {
     if (!downloadDivRef.current) return;
@@ -352,6 +399,7 @@ function UserContributionContent({ username }: { username: string }) {
             </div>
           </div>
         </div>
+
         <div className="flex items-center justify-between w-full z-50 relative mt-6 gap-4">
           {/* <Switch checked={showProfile} onCheckedChange={setShowProfile} /> */}
           {/* <Button
@@ -360,6 +408,7 @@ function UserContributionContent({ username }: { username: string }) {
           >
             Search Another User
           </Button> */}
+
           <span className="sm:hidden">
             <Button
               onClick={handleDownload}
@@ -368,7 +417,17 @@ function UserContributionContent({ username }: { username: string }) {
               <Download />
             </Button>
           </span>
+          <Button
+            onClick={handleshare}
+            variant="outline"
+            size="sm"
+            className="flex items-center space-x-2 cursor-pointer hover:bg-blue-600 hover:text-white hover:scale-105 hover:shadow-lg transition-transform transition-colors duration-300 ease-in-out"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>Share</span>
+          </Button>
         </div>
+
         <span className="hidden sm:flex">
           <ExportPanel
             onExport={handleDownload}
